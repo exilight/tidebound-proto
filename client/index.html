@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <title>타이드바운드</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <button id="mobile-btn" type="button">📱 모바일 테스트</button>
+  <div id="game">
+    <canvas id="view"></canvas>
+
+    <div id="status" class="panel">
+      <div class="bar-row"><span>체력</span><div class="bar hp"><i id="hp-fill"></i></div><b id="hp-text">100</b></div>
+      <div class="bar-row"><span>온기</span><div class="bar warmth"><i id="warmth-fill"></i></div><b id="warmth-text">100</b></div>
+    </div>
+
+    <div id="zone"></div>
+    <div id="notices"></div>
+    <canvas id="minimap" width="300" height="300"></canvas>
+
+    <div id="storage" class="panel"></div>
+    <div id="goal" class="panel"></div>
+    <div id="help" class="panel">
+      <b>조작</b><br />
+      WASD·클릭 이동<br />
+      클릭 대상 지정<br />
+      Space 공격 · E 상호작용<br />
+      휠 줌
+    </div>
+
+    <div id="prompt"></div>
+    <div id="gather-bar"><i id="gather-fill"></i></div>
+    <div id="bag" class="panel"><div id="bag-title"></div><div id="bag-slots"></div></div>
+
+    <div id="joystick"><div id="joy-knob"></div></div>
+    <button id="btn-attack" type="button">공격</button>
+    <button id="btn-interact" type="button">상호작용</button>
+
+    <div id="fade"></div>
+    <div id="overlay">등불을 켜는 중…</div>
+    <div id="rotate-hint">가로로 돌려 주세요</div>
+    <div id="floaters"></div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

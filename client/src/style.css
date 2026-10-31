@@ -1,0 +1,102 @@
+:root {
+  --ink: #f2e6cf;
+  --dim: #a9a6a8;
+  --panel: rgba(13, 18, 36, 0.78);
+  --line: rgba(255, 190, 110, 0.22);
+  --amber: #ffb057;
+  --blue: #6fb6d8;
+  --red: #e0604f;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; background: #070a15; color: var(--ink); overflow: hidden;
+  font-family: "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif; font-size: 14px; user-select: none; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+#game { position: fixed; inset: 0; overflow: hidden; background: #111a33; touch-action: none; }
+#view { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+
+/* 모바일 테스트: PC에서 가로 폰 화면 크기로 띄운다 */
+body.sim { display: flex; align-items: center; justify-content: center; }
+body.sim #game { position: relative; inset: auto; width: min(844px, 100vw); height: min(390px, 100vh);
+  border-radius: 22px; box-shadow: 0 0 0 7px #1d2233, 0 24px 60px rgba(0, 0, 0, 0.6); }
+
+#mobile-btn { position: fixed; top: 12px; right: 12px; z-index: 50; padding: 8px 12px; border-radius: 8px;
+  background: var(--panel); border: 1px solid var(--line); }
+#mobile-btn:hover { border-color: var(--amber); }
+body.mobile:not(.sim) #mobile-btn { display: none; }
+
+.panel { position: absolute; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; pointer-events: none; }
+
+#status { top: 12px; left: 12px; width: 230px; display: grid; gap: 6px; }
+.bar-row { display: grid; grid-template-columns: 30px 1fr 30px; gap: 8px; align-items: center; font-size: 12px; }
+.bar-row b { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
+.bar { height: 10px; background: rgba(255, 255, 255, 0.09); border-radius: 5px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 100%; }
+.bar.hp i { background: var(--red); }
+.bar.warmth i { background: var(--amber); }
+.bar.warmth.low i { background: var(--blue); }
+
+#zone { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); font-size: 15px; font-weight: 600;
+  text-shadow: 0 1px 6px #000; pointer-events: none; white-space: nowrap; }
+#notices { position: absolute; top: 44px; left: 50%; transform: translateX(-50%); display: grid; gap: 4px; justify-items: center; pointer-events: none; }
+#notices div { background: rgba(10, 14, 28, 0.72); padding: 3px 10px; border-radius: 6px; font-size: 13px; white-space: nowrap; animation: fadeout 2.6s forwards; }
+@keyframes fadeout { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
+
+#minimap { position: absolute; top: 56px; right: 12px; width: 150px; height: 150px; border-radius: 10px;
+  background: rgba(13, 18, 36, 0.78); border: 1px solid var(--line); pointer-events: none; }
+
+#storage { top: 216px; right: 12px; width: 150px; font-size: 12px; line-height: 1.55; }
+#goal { top: 84px; left: 12px; width: 230px; font-size: 12px; line-height: 1.45; color: var(--ink); }
+#help { left: 12px; bottom: 12px; font-size: 12px; line-height: 1.5; color: var(--dim); }
+#help b { color: var(--ink); }
+
+#prompt { position: absolute; bottom: 104px; left: 50%; transform: translateX(-50%); padding: 5px 12px; border-radius: 8px;
+  background: rgba(255, 176, 87, 0.92); color: #2a1a08; font-weight: 700; display: none; pointer-events: none; white-space: nowrap; }
+#gather-bar { position: absolute; bottom: 140px; left: 50%; width: 140px; height: 7px; margin-left: -70px; border-radius: 4px;
+  background: rgba(0, 0, 0, 0.55); overflow: hidden; display: none; pointer-events: none; }
+#gather-bar i { display: block; height: 100%; width: 0; background: var(--amber); }
+
+#bag { bottom: 12px; left: 50%; transform: translateX(-50%); padding: 6px 8px; }
+#bag-title { font-size: 11px; color: var(--dim); text-align: center; margin-bottom: 4px; }
+#bag-slots { display: flex; gap: 5px; }
+.slot { position: relative; width: 44px; height: 44px; border-radius: 7px; background: rgba(255, 255, 255, 0.06);
+  display: flex; align-items: center; justify-content: center; font-size: 21px; }
+.slot.empty { opacity: 0.32; filter: grayscale(1); }
+.slot span { position: absolute; right: 3px; bottom: 1px; font-size: 11px; font-weight: 700; text-shadow: 0 1px 2px #000; }
+
+#joystick, #btn-attack, #btn-interact { display: none; }
+body.mobile #joystick { display: block; position: absolute; left: 22px; bottom: 22px; width: 118px; height: 118px; border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07); border: 2px solid rgba(255, 255, 255, 0.2); touch-action: none; }
+#joy-knob { position: absolute; left: 50%; top: 50%; width: 50px; height: 50px; margin: -25px 0 0 -25px; border-radius: 50%;
+  background: rgba(255, 176, 87, 0.75); pointer-events: none; }
+body.mobile #btn-attack, body.mobile #btn-interact { display: block; position: absolute; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.25);
+  touch-action: none; font-weight: 700; }
+body.mobile #btn-attack { right: 24px; bottom: 24px; width: 84px; height: 84px; background: rgba(224, 96, 79, 0.75); }
+body.mobile #btn-interact { right: 118px; bottom: 20px; width: 66px; height: 66px; font-size: 12px; line-height: 1.15; padding: 4px; background: rgba(255, 176, 87, 0.45); }
+body.mobile #btn-interact.ready { background: rgba(255, 176, 87, 0.95); color: #2a1a08; }
+
+body.mobile #help, body.mobile #prompt, body.mobile #goal { display: none !important; }
+body.mobile #status { width: 180px; top: 8px; left: 8px; padding: 5px 8px; gap: 3px; }
+body.mobile #minimap { top: 8px; right: 8px; width: 84px; height: 84px; }
+body.sim #minimap { right: 8px; }
+body.mobile #storage { top: 66px; left: 8px; right: auto; width: 180px; padding: 3px 8px; font-size: 11px; }
+body.mobile #bag { bottom: 6px; padding: 3px 5px; }
+body.mobile #bag-title { font-size: 10px; margin-bottom: 2px; }
+body.mobile .slot { width: 34px; height: 34px; font-size: 16px; }
+body.mobile #zone { top: 8px; font-size: 13px; }
+body.mobile #notices { top: 32px; }
+body.mobile #gather-bar { bottom: 74px; }
+
+#fade { position: absolute; inset: 0; background: #070a15; opacity: 0; transition: opacity 0.35s; pointer-events: none; }
+#fade.on { opacity: 0.85; }
+#overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: #0b1020; font-size: 18px; z-index: 20; text-align: center; padding: 20px; }
+#overlay.hidden { display: none; }
+#rotate-hint { display: none; }
+@media (orientation: portrait) {
+  body.mobile:not(.sim) #rotate-hint { display: flex; position: absolute; inset: 0; z-index: 30; align-items: center; justify-content: center; background: #0b1020; font-size: 18px; }
+}
+
+#floaters { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.floater { position: absolute; font-weight: 800; font-size: 17px; text-shadow: 0 1px 3px #000; transform: translate(-50%, -50%); }
+.floater.player { color: #ff7a66; }
+.floater.mob { color: #ffe3a6; }

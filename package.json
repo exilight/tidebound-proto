@@ -1,0 +1,16 @@
+{
+  "name": "tidebound-proto",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": ["shared", "server", "client"],
+  "scripts": {
+    "dev": "concurrently -k -n server,client -c yellow,cyan \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run typecheck -w server && npm run build -w client",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "concurrently": "^10.0.6",
+    "typescript": "^5.9.0"
+  }
+}
